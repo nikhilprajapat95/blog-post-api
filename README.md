@@ -1,4 +1,4 @@
-# FastAPI Blog DevOps Project
+# FastAPI Blog Post Project
 
 A beginner-friendly FastAPI blog application with PostgreSQL, Docker, Kubernetes, GitHub Actions, and monitoring support.
 
