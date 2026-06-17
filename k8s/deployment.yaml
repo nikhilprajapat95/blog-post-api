@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-blog
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi-blog
+  template:
+    metadata:
+      labels:
+        app: fastapi-blog
+    spec:
+      containers:
+        - name: fastapi
+          image: YOUR_DOCKERHUB_USERNAME/fastapi-blog:latest
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          env:
+            - name: DATABASE_URL
+              value: postgresql://postgres:postgres@postgres:5432/postgres
+            - name: SECRET_KEY
+              value: super-secret-change-me

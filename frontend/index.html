@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>FastAPI Blog</h1>
+
+    <section class="card" id="login-card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label>Username</label>
+        <input type="text" id="username" required />
+        <label>Password</label>
+        <input type="password" id="password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p id="login-message"></p>
+    </section>
+
+    <section class="card" id="new-post-card">
+      <h2>Create Post</h2>
+      <form id="post-form">
+        <label>Title</label>
+        <input type="text" id="post-title" required />
+        <label>Content</label>
+        <textarea id="post-content" rows="4" required></textarea>
+        <button type="submit">Create Post</button>
+      </form>
+      <p id="post-message"></p>
+    </section>
+
+    <section class="card" id="posts-card">
+      <h2>Posts</h2>
+      <div id="posts"></div>
+    </section>
+  </div>
+
+  <script src="/frontend/app.js"></script>
+</body>
+</html>
