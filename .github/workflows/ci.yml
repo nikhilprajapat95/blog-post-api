@@ -25,6 +25,7 @@ jobs:
         run: pytest backend/tests
 
   docker:
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     needs: test
     steps:
