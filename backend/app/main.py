@@ -54,6 +54,12 @@ def readiness_check():
     return {"status": "ready"}
 
 
+@app.get("/")
+def root():
+    """Root endpoint for health checks and default browser access."""
+    return {"status": "ok", "message": "Blog API is running"}
+
+
 app.include_router(users.router)
 app.include_router(posts.router)
 app.include_router(comments.router)
