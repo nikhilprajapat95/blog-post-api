@@ -1,9 +1,12 @@
 """FastAPI application entry point and route registration."""
 
 import time
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from prometheus_fastapi_instrumentator import Instrumentator
 from sqlalchemy.exc import OperationalError
 
@@ -12,6 +15,10 @@ from .database import engine
 from .routes import comments, posts, users
 
 app = FastAPI(title="Blog API")
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+FRONTEND_DIR = ROOT_DIR / "frontend"
+app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
 # Set up Prometheus metrics instrumentation.
 Instrumentator().instrument(app).expose(app)
@@ -54,12 +61,23 @@ def readiness_check():
     return {"status": "ready"}
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 def root():
-    """Root endpoint for health checks and default browser access."""
-    return {"status": "ok", "message": "Blog API is running"}
+    """Serve the frontend app at the root URL."""
+    index_path = FRONTEND_DIR / "index.html"
+    return FileResponse(index_path)
 
 
 app.include_router(users.router)
 app.include_router(posts.router)
 app.include_router(comments.router)
+
+
+@app.get("/{full_path:path}", include_in_schema=False)
+def serve_frontend(full_path: str):
+    """Serve frontend static files or return index.html for client-side routing."""
+    # Let API routes (registered above) take precedence; this runs for unmatched paths.
+    candidate = FRONTEND_DIR / full_path
+    if candidate.exists() and candidate.is_file():
+        return FileResponse(candidate)
+    return FileResponse(FRONTEND_DIR / "index.html")
