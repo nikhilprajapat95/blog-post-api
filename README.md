@@ -140,5 +140,5 @@ Prometheus, Grafana, and Loki can be installed with Helm on your cluster.
 ## Screenshots
 
 Add screenshots here:
-- `C:\MRsoftware\data\image.png`
-- `C:\MRsoftware\data\image1.png`
+- `(C:\MRsoftware\data\image.png)`
+- `(C:\MRsoftware\data\image1.png)`
