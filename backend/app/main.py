@@ -37,7 +37,7 @@ def wait_for_database(retries: int = 10, delay: float = 3.0) -> None:
             time.sleep(delay)
 
 
-# Wait for Postgres to be ready before creating database tables.
+# Wait for the configured database to be ready before creating tables.
 wait_for_database()
 models.Base.metadata.create_all(bind=engine)
 

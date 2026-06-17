@@ -1,24 +1,10 @@
 services:
-  postgres:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
   fastapi:
     build:
       context: ./backend
     restart: always
-    depends_on:
-      - postgres
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      DATABASE_URL: sqlite:///./blog.db
       SECRET_KEY: super-secret-change-me
     ports:
       - "8000:8000"
@@ -33,6 +19,3 @@ services:
       - ./frontend:/usr/share/nginx/html:ro
     depends_on:
       - fastapi
-
-volumes:
-  postgres_data:

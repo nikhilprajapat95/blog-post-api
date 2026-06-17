@@ -1,7 +1,9 @@
 const API_URL = window.location.origin;
 
+const registerForm = document.getElementById("register-form");
 const loginForm = document.getElementById("login-form");
 const postForm = document.getElementById("post-form");
+const registerMessage = document.getElementById("register-message");
 const loginMessage = document.getElementById("login-message");
 const postMessage = document.getElementById("post-message");
 const postsContainer = document.getElementById("posts");
@@ -32,6 +34,31 @@ async function fetchPosts() {
   });
 }
 
+registerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const username = document.getElementById("register-username").value;
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
+
+  const response = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, email, password }),
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    registerMessage.textContent = data.detail || "Registration failed. Try again.";
+    return;
+  }
+
+  registerMessage.textContent = "Registration successful. You can now log in.";
+  loginMessage.textContent = "Please log in with your new account.";
+  document.getElementById("register-username").value = "";
+  document.getElementById("register-email").value = "";
+  document.getElementById("register-password").value = "";
+});
+
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const username = document.getElementById("username").value;
@@ -54,6 +81,7 @@ loginForm.addEventListener("submit", async (event) => {
   const data = await response.json();
   saveToken(data.access_token);
   loginMessage.textContent = "Login successful. You can now create posts.";
+  fetchPosts();
 });
 
 postForm.addEventListener("submit", async (event) => {

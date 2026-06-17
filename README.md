@@ -1,6 +1,6 @@
 # FastAPI Blog Post Project
 
-A beginner-friendly FastAPI blog application with PostgreSQL, Docker, Kubernetes, GitHub Actions, and monitoring support.
+A beginner-friendly FastAPI blog application with SQLite, Docker, Kubernetes, GitHub Actions, and monitoring support.
 
 ## Project Overview
 
@@ -8,7 +8,7 @@ This project contains:
 - `backend/`: FastAPI application with models, authentication, routes, and tests.
 - `frontend/`: Static HTML, CSS, and JavaScript to call the API.
 - `Dockerfile`: Container image for FastAPI.
-- `docker-compose.yml`: Local stack with FastAPI, PostgreSQL, and Nginx.
+- `docker-compose.yml`: Local stack with FastAPI, SQLite, and Nginx.
 - `nginx.conf`: Reverse proxy configuration.
 - `k8s/`: Kubernetes manifests for deployment.
 - `.github/workflows/`: CI and CD workflow files.
@@ -56,7 +56,7 @@ README.md
    ```bash
    pip install -r backend/requirements.txt
    ```
-3. Start PostgreSQL locally and set `DATABASE_URL` if needed.
+3. No external database is required; the app uses SQLite by default.
 4. Run the app:
    ```bash
    uvicorn backend.app.main:app --reload --host 0.0.0.0 --port 8000
@@ -71,8 +71,7 @@ docker compose up --build
 ```
 
 This creates:
-- `postgres` database service
-- `fastapi` app service
+- `fastapi` app service using SQLite
 - `nginx` reverse proxy service
 
 ## Kubernetes Deployment

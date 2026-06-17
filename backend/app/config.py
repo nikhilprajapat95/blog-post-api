@@ -2,11 +2,11 @@
 
 import os
 
-# The database connection URL for PostgreSQL.
-# In Docker Compose this will resolve to the postgres service name.
+# The database connection URL for SQLite.
+# Local development uses a file-based SQLite database.
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:postgres@postgres:5432/postgres",
+    "sqlite:///./blog.db",
 )
 
 # Secret key used to sign JWT tokens.
